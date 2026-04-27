@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Manga Reader">
+  <meta name="theme-color" content="#111111">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <title>Manga Reader</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+  <header id="app-header">
+    <button id="back-btn" class="back-btn" onclick="closeReader()">‹ Back</button>
+    <h3 id="header-title">My Library</h3>
+    <div style="display:flex; gap:8px; align-items:center;">
+      <button id="settings-btn" class="icon-btn" onclick="toggleSettings()" style="display:none;" aria-label="Reading settings">⚙</button>
+      <button id="add-btn" class="add-btn" onclick="showAddModal()" aria-label="Add book">+</button>
+    </div>
+  </header>
+
+  <div id="progress-bar"></div>
+
+  <div id="loading">
+    <div class="loading-box">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loading-text">Processing…</div>
+      <small id="loading-sub"></small>
+    </div>
+  </div>
+
+  <div id="library-view">
+    <div id="book-list" class="book-list"></div>
+    <div id="empty-msg" class="empty-state">
+      <div class="empty-icon">📚</div>
+      <div class="empty-title">No books yet</div>
+      <div class="empty-desc">Tap <strong>+</strong> to import a PDF or images.<br>Long press any book to rename or delete.</div>
+    </div>
+  </div>
+
+  <div id="reader-view" class="vertical">
+    <div id="viewer-container"></div>
+  </div>
+
+  <div id="page-jumper">
+    <span id="jumper-label">Page 1 / 1</span>
+    <input type="range" id="page-slider" min="1" value="1">
+  </div>
+
+  <div id="settings-modal">
+    <div class="settings-title">Reading Mode</div>
+    <button class="setting-btn" id="mode-btn-vertical"  onclick="changeMode('vertical')">↕ Vertical (Webtoon)</button>
+    <button class="setting-btn" id="mode-btn-rtl"       onclick="changeMode('rtl')">← Right-to-Left (Manga)</button>
+    <button class="setting-btn" id="mode-btn-ltr"       onclick="changeMode('ltr')">→ Left-to-Right (Comic)</button>
+  </div>
+
+  <!-- Add Modal -->
+  <div id="add-modal">
+    <div class="modal-box">
+      <h4>Import Book</h4>
+      <p>Choose a file type to import</p>
+      <button class="modal-btn btn-primary"   onclick="triggerPDFImport()">📄 Import PDF</button>
+      <button class="modal-btn btn-secondary" onclick="triggerImageImport()">🖼 Import Images</button>
+      <button class="modal-btn btn-ghost"     onclick="closeAddModal()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Alert Modal -->
+  <div id="alert-modal">
+    <div class="modal-box">
+      <p id="alert-message"></p>
+      <button class="modal-btn btn-primary" id="alert-ok-btn">OK</button>
+    </div>
+  </div>
+
+  <!-- Confirm Modal -->
+  <div id="confirm-modal">
+    <div class="modal-box">
+      <h4 id="confirm-title">Confirm</h4>
+      <p id="confirm-message"></p>
+      <button class="modal-btn btn-danger" id="confirm-yes-btn">Delete</button>
+      <button class="modal-btn btn-ghost"  id="confirm-no-btn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div id="context-modal">
+    <div class="modal-box">
+      <h4 id="context-book-name" class="modal-book-name"></h4>
+      <button class="modal-btn btn-secondary" id="context-rename-btn">✏ Rename</button>
+      <button class="modal-btn btn-danger"    id="context-delete-btn">Delete</button>
+      <button class="modal-btn btn-ghost"     id="context-cancel-btn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Rename Modal -->
+  <div id="rename-modal">
+    <div class="modal-box">
+      <h4>Rename</h4>
+      <input type="text" id="rename-input" placeholder="Enter new name">
+      <button class="modal-btn btn-primary" id="rename-save-btn">Save</button>
+      <button class="modal-btn btn-ghost"   id="rename-cancel-btn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Hidden file inputs -->
+  <input type="file" id="pdf-input"   accept="application/pdf" style="display:none">
+  <input type="file" id="image-input" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple style="display:none">
+
+  <script src="./main.js"></script>
+</body>
+</html>
